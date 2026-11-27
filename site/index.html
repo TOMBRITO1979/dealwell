@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>DealWell — Our Picks</title>
+  <meta name="description" content="DealWell — curated product picks.">
+  <link rel="stylesheet" href="assets/styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="brand">DealWell<span class="dot">.</span></div>
+    <input id="search" class="search" type="search" placeholder="Search picks…" aria-label="Search products">
+  </header>
+
+  <nav id="tabs" class="tabs" aria-label="Categories"></nav>
+
+  <main>
+    <div id="grid" class="grid" aria-live="polite"></div>
+    <p id="empty" class="empty" hidden>No picks found.</p>
+  </main>
+
+  <footer class="site-footer">
+    <p>As an affiliate, DealWell earns from qualifying purchases.</p>
+  </footer>
+
+  <!-- Lightbox -->
+  <div id="lightbox" class="lightbox" hidden role="dialog" aria-modal="true" aria-label="Product gallery">
+    <button class="lb-close" aria-label="Close">×</button>
+    <button class="lb-prev" aria-label="Previous">‹</button>
+    <div class="lb-stage"><div id="lb-media" class="lb-media"></div></div>
+    <button class="lb-next" aria-label="Next">›</button>
+    <div class="lb-bar">
+      <span id="lb-title" class="lb-title"></span>
+      <a id="lb-cta" class="btn" target="_blank" rel="nofollow sponsored noopener"></a>
+    </div>
+  </div>
+
+  <script type="module" src="assets/app.js"></script>
+</body>
+</html>

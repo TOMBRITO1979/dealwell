@@ -1,0 +1,34 @@
+name: Sync & Deploy DealWell
+on:
+  schedule:
+    - cron: '0 * * * *'      # hourly
+  workflow_dispatch: {}       # manual run button
+concurrency:
+  group: dealwell-sync
+  cancel-in-progress: false
+jobs:
+  build-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - name: Build catalog (reads Sheet + Drive)
+        env:
+          GOOGLE_API_KEY: ${{ secrets.GOOGLE_API_KEY }}
+          SHEET_ID: ${{ secrets.SHEET_ID }}
+          DRIVE_FOLDER_ID: ${{ secrets.DRIVE_FOLDER_ID }}
+        run: npm run build
+      - name: Deploy site/ to Hostinger via FTP
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          local-dir: ./site/
+          server-dir: ./public_html/
+          exclude: |
+            **/*.sample.json
+            **/*.test.js
+            **/.gitkeep
