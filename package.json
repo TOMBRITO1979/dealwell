@@ -1,0 +1,11 @@
+{
+  "name": "dealwell",
+  "version": "1.0.0",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "test": "node --test",
+    "build": "node sync/build.js"
+  },
+  "engines": { "node": ">=24" }
+}

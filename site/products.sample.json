@@ -1,0 +1,12 @@
+{
+  "generated_at": "2026-11-26T00:00:00Z",
+  "categories": ["Beauty", "Home", "Kitchen"],
+  "products": [
+    { "id": 1, "name": "Silk Hair Towel", "category": "Beauty", "description": "A gentle everyday upgrade we love.", "channel": "Amazon", "link": "https://example.com/1",
+      "media": [ {"type":"image","src":"https://picsum.photos/seed/d1/600/600"}, {"type":"image","src":"https://picsum.photos/seed/d1b/600/600"} ] },
+    { "id": 2, "name": "Ceramic Diffuser", "category": "Home", "description": "Calm vibes for any room.", "channel": "TikTok", "link": "https://example.com/2",
+      "media": [ {"type":"image","src":"https://picsum.photos/seed/d2/600/600"} ] },
+    { "id": 3, "name": "Matcha Whisk Set", "category": "Kitchen", "description": "Cafe ritual, made at home.", "channel": "Amazon", "link": "https://example.com/3",
+      "media": [ {"type":"image","src":"https://picsum.photos/seed/d3/600/600"} ] }
+  ]
+}
