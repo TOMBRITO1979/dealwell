@@ -24,3 +24,11 @@ export function filterProducts(products, { category = 'All Picks', query = '' } 
 
 export function nextIndex(i, len) { return len ? (i + 1) % len : 0; }
 export function prevIndex(i, len) { return len ? (i - 1 + len) % len : 0; }
+
+export function safeUrl(u) {
+  if (!u) return '#';
+  try {
+    const parsed = new URL(u, 'https://dealwell.pro/');
+    return (parsed.protocol === 'http:' || parsed.protocol === 'https:') ? parsed.href : '#';
+  } catch { return '#'; }
+}
