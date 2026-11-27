@@ -1,34 +1,47 @@
 name: Sync & Deploy DealWell
 on:
+  push:
+    branches: [master]
   schedule:
     - cron: '0 * * * *'      # hourly
   workflow_dispatch: {}       # manual run button
+permissions:
+  contents: read
+  pages: write
+  id-token: write
 concurrency:
-  group: dealwell-sync
+  group: dealwell-pages
   cancel-in-progress: false
 jobs:
-  build-deploy:
+  build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: '24'
-      - name: Build catalog (reads Sheet + Drive)
+      - name: Build catalog from Sheet + Drive (only if API key is set)
         env:
           GOOGLE_API_KEY: ${{ secrets.GOOGLE_API_KEY }}
           SHEET_ID: ${{ secrets.SHEET_ID }}
           DRIVE_FOLDER_ID: ${{ secrets.DRIVE_FOLDER_ID }}
-        run: npm run build
-      - name: Deploy site/ to Hostinger via FTP
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        run: |
+          if [ -n "$GOOGLE_API_KEY" ]; then
+            npm run build
+          else
+            echo "GOOGLE_API_KEY not set yet — deploying with sample data for now."
+          fi
+      - name: Clean test files out of the published site
+        run: rm -f site/assets/*.test.js
+      - uses: actions/upload-pages-artifact@v3
         with:
-          server: ${{ secrets.FTP_SERVER }}
-          username: ${{ secrets.FTP_USERNAME }}
-          password: ${{ secrets.FTP_PASSWORD }}
-          local-dir: ./site/
-          server-dir: ./public_html/
-          exclude: |
-            **/*.sample.json
-            **/*.test.js
-            **/.gitkeep
+          path: ./site
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
